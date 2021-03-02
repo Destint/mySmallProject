@@ -1,0 +1,8 @@
+<view class="page-smallNotebook">
+  <view class="smallNotebook-box">
+    <view class="smallNotebook-title">{{smallNotebookData.title}}</view>
+    <view class="smallNotebook-content">{{smallNotebookData.content}}</view>
+    <view class="smallNotebook-time">{{smallNotebookData.time}}</view>
+  </view>
+  <button class="smallNotebook-delete-btn" type="primary" bindtap="clickDeleteSmallNotebook">删除小本本</button>
+</view>

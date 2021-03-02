@@ -1,0 +1,25 @@
+.userInfo-box {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 144rpx;
+  height: 144rpx;
+  border-radius: 50%;
+  margin-top: 50rpx;
+}
+
+.login-btn {
+  border-radius: 80rpx;
+  margin-top: 30rpx;
+}
+
+.user-nickName {
+  margin-top: 28rpx;
+  font-size: 40rpx;
+  font-weight: bold;
+}

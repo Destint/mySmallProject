@@ -1,6 +1,9 @@
 {
   "pages": [
-    "pages/mine/mine"
+    "pages/home/home",
+    "pages/compile/compile",
+    "pages/mine/mine",
+    "pages/smallNotebook/smallNotebook"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -9,6 +12,26 @@
   },
   "useExtendedLib": {
     "weui": true
+  },
+  "tabBar": {
+    "position": "bottom",
+    "backgroundColor": "#ffffff",
+    "list": [{
+        "pagePath": "pages/home/home",
+        "iconPath": "images/home_normal.png",
+        "selectedIconPath": "images/home_highlight.png"
+      },
+      {
+        "pagePath": "pages/compile/compile",
+        "iconPath": "images/create_default.png",
+        "selectedIconPath": "images/create_highlight.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "images/mine_normal.png",
+        "selectedIconPath": "images/mine_highlight.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

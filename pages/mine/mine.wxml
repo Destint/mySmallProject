@@ -1,0 +1,13 @@
+<view class="page-mine">
+  <view class="userInfo-box">
+    <block wx:if="{{isLogin}}">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}"></image>
+      <text class="user-nickName">{{userInfo.nickName}}</text>
+    </block>
+    <block wx:else>
+      <image class="user-avatar" src="/images/avatar_default.png"></image>
+      <button class="login-btn" type="primary" open-type="getUserInfo" lang="zh_CN"
+        bindgetuserinfo="clickLoginBtn">点击登录用户</button>
+    </block>
+  </view>
+</view>
