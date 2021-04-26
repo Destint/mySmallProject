@@ -1,10 +1,16 @@
 <view class="page-home">
-  <block wx:for-items="{{smallNotebookData}}" wx:key="index">
+  <!-- <block wx:for-items="{{smallNotebookData}}" wx:key="index">
     <view class="smallNotebook-box" style="margin-top:{{index == 0?'0rpx':'20rpx'}}">
       <text class="smallNotebook-title">{{item.title}}</text>
       <image class="smallNotebook-enter" src="/images/enter.png" bindtap="clickEnterFlag" data-data="{{item}}"
         data-index="{{index}}"></image>
       <text class="smallNotebook-time">{{item.time}}</text>
     </view>
-  </block>
+  </block> -->
+  <view class="record-box">
+    <view class="record-bg" bindtap="goToRecord">
+      <image class="record-flag" src="/images/record_flag.png"></image>
+      <text class="record-tip">拿小本本</text>
+    </view>
+  </view>
 </view>

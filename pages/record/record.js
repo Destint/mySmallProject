@@ -12,7 +12,7 @@ Page({
   // 页面加载（一个页面只会调用一次）
   onLoad: function () {},
   // 点击记下来按钮事件
-  saveSmallNotebookData: function (data) {
+  recordSmallNotebookData: function (data) {
     var that = this;
     var oldSmallNotebookData = [];
     var preSmallNotebookData = data.detail.value;

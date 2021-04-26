@@ -1,5 +1,5 @@
-<view class="page-compile">
-  <form bindsubmit="saveSmallNotebookData">
+<view class="page-record">
+  <form bindsubmit="recordSmallNotebookData">
     <view class="smallNotebook-title-box">
       <input class="smallNotebook-title-input" name='title' placeholder="标题" value="{{title}}" />
     </view>
@@ -7,6 +7,8 @@
       <textarea class="smallNotebook-content-input" name='content' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
         value="{{content}}"></textarea>
     </view>
-    <button class="smallNotebook-save-btn" type="primary" formType="submit">记下来</button>
+    <view class="smallNotebook-record-box">
+      <button class="smallNotebook-record-btn" formType="submit">记下来</button>
+    </view>
   </form>
 </view>

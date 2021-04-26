@@ -1,42 +1,12 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/compile/compile",
-    "pages/mine/mine",
-    "pages/smallNotebook/smallNotebook"
+    "pages/record/record"
   ],
-  "permission": {
-    "scope.userLocation": {
-      "desc": "授权后小本本会在您记下小本本的同时记下当前位置，以便日后查看"
-    }
-  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTextStyle": "black"
-  },
-  "useExtendedLib": {
-    "weui": true
-  },
-  "tabBar": {
-    "position": "bottom",
-    "backgroundColor": "#ffffff",
-    "list": [{
-        "pagePath": "pages/home/home",
-        "iconPath": "images/home_normal.png",
-        "selectedIconPath": "images/home_highlight.png"
-      },
-      {
-        "pagePath": "pages/compile/compile",
-        "iconPath": "images/create_default.png",
-        "selectedIconPath": "images/create_highlight.png"
-      },
-      {
-        "pagePath": "pages/mine/mine",
-        "iconPath": "images/mine_normal.png",
-        "selectedIconPath": "images/mine_highlight.png"
-      }
-    ]
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
