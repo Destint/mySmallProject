@@ -3,11 +3,13 @@
     <block wx:if="{{isLogin}}">
       <image class="user-avatar" src="{{userInfo.avatarUrl}}"></image>
       <text class="user-nickName">{{userInfo.nickName}}</text>
+      <text class="user-registrationDate">{{registrationDate}}</text>
     </block>
     <block wx:else>
-      <image class="user-avatar" src="/images/avatar_default.png"></image>
-      <button class="login-btn" type="primary" open-type="getUserInfo" lang="zh_CN"
-        bindgetuserinfo="clickLoginBtn">点击登录用户</button>
+      <button class="login-btn" style="width:unset" open-type="getUserInfo" bindgetuserinfo="clickLoginBtn">
+        点击登录
+      </button>
     </block>
+    <!-- <button class="login-btn" type="primary" bindtap="getLocation">点击获取当前位置</button> -->
   </view>
 </view>

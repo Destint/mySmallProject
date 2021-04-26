@@ -25,7 +25,7 @@ Page({
       success(res) {
         var oldSmallNotebookData;
         oldSmallNotebookData = res.data;
-        oldSmallNotebookData.splice(index,1);
+        oldSmallNotebookData.splice(index, 1);
         wx.setStorage({
           key: "smallNotebookData",
           data: oldSmallNotebookData

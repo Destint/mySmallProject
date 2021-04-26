@@ -4,8 +4,8 @@
       <input class="smallNotebook-title-input" name='title' placeholder="标题" value="{{title}}" />
     </view>
     <view class="smallNotebook-content-box">
-      <textarea class="smallNotebook-content-input" name='content' maxlength="-1"
-        placeholder="赶紧把重要的事拿小本本记下来" value="{{content}}"></textarea>
+      <textarea class="smallNotebook-content-input" name='content' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
+        value="{{content}}"></textarea>
     </view>
     <button class="smallNotebook-save-btn" type="primary" formType="submit">记下来</button>
   </form>

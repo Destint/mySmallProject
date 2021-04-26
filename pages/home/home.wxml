@@ -2,7 +2,8 @@
   <block wx:for-items="{{smallNotebookData}}" wx:key="index">
     <view class="smallNotebook-box" style="margin-top:{{index == 0?'0rpx':'20rpx'}}">
       <text class="smallNotebook-title">{{item.title}}</text>
-      <image class="smallNotebook-enter" src="/images/enter.png" bindtap="clickEnterFlag" data-data="{{item}}" data-index="{{index}}"></image>
+      <image class="smallNotebook-enter" src="/images/enter.png" bindtap="clickEnterFlag" data-data="{{item}}"
+        data-index="{{index}}"></image>
       <text class="smallNotebook-time">{{item.time}}</text>
     </view>
   </block>

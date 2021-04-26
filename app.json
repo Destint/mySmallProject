@@ -5,6 +5,11 @@
     "pages/mine/mine",
     "pages/smallNotebook/smallNotebook"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "授权后小本本会在您记下小本本的同时记下当前位置，以便日后查看"
+    }
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
