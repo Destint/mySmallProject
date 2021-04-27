@@ -10,6 +10,7 @@ Page({
   // 页面加载（一个页面只会调用一次）
   onLoad() {
     var that = this;
+    wx.showShareMenu(); // 开启分享
     const eventChannel = this.getOpenerEventChannel();
     // 接收上个页面的数据
     eventChannel.on('acceptDataFromOpenerPage', function (data) {
@@ -54,10 +55,17 @@ Page({
               })
             }
           })
-        } else if (res.cancel) {
-          // console.log('用户点击取消')
-        }
+        } else if (res.cancel) {}
       }
     })
+  },
+
+  // 分享给朋友的页面设置
+  onShareAppMessage: function () {
+    return {
+      title: '我拿小本本记下了',
+      path: '/pages/home/home',
+      imageUrl: '/images/share.png'
+    }
   }
 })

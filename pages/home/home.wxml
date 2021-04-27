@@ -3,6 +3,7 @@
     <view class="smallNotebook-box" bindtap="goToSmallNotebook" data-data="{{item}}" data-index="{{index}}">
       <text class="smallNotebook-title">{{item.title}}</text>
       <text class="smallNotebook-time">{{item.time}}</text>
+      <text class="smallNotebook-address">{{item.address}}</text>
     </view>
   </block>
   <view class="record-box">

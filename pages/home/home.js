@@ -7,6 +7,11 @@ Page({
     smallNotebookData: [],
   },
 
+  // 页面加载（只会调用一次）
+  onLoad: function () {
+    wx.showShareMenu(); // 开启分享
+  },
+
   // 页面加载（每次打开页面都会调用一次）
   onShow: function () {
     var that = this;
@@ -43,5 +48,14 @@ Page({
       url: '/pages/record/record',
       success: function (res) {}
     })
+  },
+
+  // 分享给朋友的页面设置
+  onShareAppMessage: function () {
+    return {
+      title: '我拿小本本记下了',
+      path: '/pages/home/home',
+      imageUrl: '/images/share.png'
+    }
   }
 })

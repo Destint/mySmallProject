@@ -4,6 +4,11 @@
     "pages/record/record",
     "pages/smallNotebook/smallNotebook"
   ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小本本将获取您的位置信息仅用于您的小本本记录"
+    }
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ff8c00",

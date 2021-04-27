@@ -5,7 +5,7 @@
     </view>
     <view class="smallNotebook-content-box">
       <textarea class="smallNotebook-content-input" name='content' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
-        value="{{content}}"></textarea>
+        disable-default-padding='true' value="{{content}}"></textarea>
     </view>
     <view class="smallNotebook-record-box">
       <button class="smallNotebook-record-btn" formType="submit">记下来</button>

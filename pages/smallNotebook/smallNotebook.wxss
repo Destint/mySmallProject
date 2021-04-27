@@ -11,7 +11,13 @@
 }
 
 .smallNotebook-time {
-  font-size: 26rpx;
+  font-size: 24rpx;
+  color: #696969;
+  margin: 10rpx 30rpx 0rpx 30rpx;
+}
+
+.smallNotebook-detailedAddress {
+  font-size: 24rpx;
   color: #696969;
   margin: 10rpx 30rpx 0rpx 30rpx;
 }

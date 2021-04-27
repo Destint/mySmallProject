@@ -1,17 +1,33 @@
 // 小本本记录页面
 const app = getApp();
 // 获取当前时间
-const getPreTime = require('../../utils/getPreTime.js')
+const getPreTime = require('../../utils/getPreTime.js');
+// 获取当前位置
+var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
+var qqmapsdk;
 
 Page({
   // 初始数据
   data: {
     title: '', // 小本本标题初值
     content: '', // 小本本内容初值
+    address: '', // 当前位置
+    detailedAddress: '', // 当前详细位置
   },
 
   // 页面加载（一个页面只会调用一次）
-  onLoad: function () {},
+  onLoad: function () {
+    wx.showShareMenu(); // 开启分享
+    qqmapsdk = new QQMapWX({
+      key: '3XKBZ-WP4CG-KQVQM-IJ2WK-7QAE7-2ZFKZ' //腾讯位置服务密钥
+    });
+  },
+
+  // 页面显示（每次打开都会调用）
+  onShow: function () {
+    var that = this;
+    that.getUserLocation();
+  },
 
   // 点击记下来按钮事件
   recordSmallNotebookData: function (data) {
@@ -36,6 +52,10 @@ Page({
     var key = "time";
     var value = getPreTime.formatTime(new Date());
     preSmallNotebookData[key] = value;
+    key = "address";
+    preSmallNotebookData[key] = that.data.address;
+    key = "detailedAddress";
+    preSmallNotebookData[key] = that.data.detailedAddress;
     wx.getStorage({
       key: 'smallNotebookData',
       success(res) {
@@ -87,4 +107,109 @@ Page({
       }
     })
   },
+
+  // 分享给朋友的页面设置
+  onShareAppMessage: function () {
+    return {
+      title: '我拿小本本记下了',
+      path: '/pages/home/home',
+      imageUrl: '/images/share.png'
+    }
+  },
+
+  // 获取用户授权位置信息
+  getUserLocation: function () {
+    var that = this;
+    wx.getSetting({
+      success: (res) => {
+        // res.authSetting['scope.userLocation'] == undefined  表示 初始化进入该页面
+        // res.authSetting['scope.userLocation'] == false  表示 非初始化进入该页面,且未授权
+        // res.authSetting['scope.userLocation'] == true  表示 地理位置授权
+        if (res.authSetting['scope.userLocation'] != undefined && res.authSetting['scope.userLocation'] != true) {
+          wx.showModal({
+            title: '请求授权当前位置',
+            content: '小本本需要获取您的地理位置，请确认授权',
+            success: function (res) {
+              if (res.cancel) {
+                wx.showToast({
+                  title: '拒绝授权',
+                  icon: 'none',
+                  duration: 1000
+                })
+              } else if (res.confirm) {
+                wx.openSetting({
+                  success: function (dataAu) {
+                    if (dataAu.authSetting["scope.userLocation"] == true) {
+                      wx.showToast({
+                        title: '授权成功',
+                        icon: 'success',
+                        duration: 1000
+                      })
+                      //再次授权，调用wx.getLocation的API
+                      that.getLocation();
+                    } else {
+                      wx.showToast({
+                        title: '授权失败',
+                        icon: 'none',
+                        duration: 1000
+                      })
+                    }
+                  }
+                })
+              }
+            }
+          })
+        } else if (res.authSetting['scope.userLocation'] == undefined) {
+          //调用wx.getLocation的API
+          that.getLocation();
+        } else {
+          //调用wx.getLocation的API
+          that.getLocation();
+        }
+      }
+    })
+  },
+
+  // 微信获得经纬度
+  getLocation: function () {
+    var that = this;
+    wx.getLocation({
+      type: 'gcj02',
+      isHighAccuracy: 'true',
+      highAccuracyExpireTime: '3500',
+      success: function (res) {
+        var latitude = res.latitude;
+        var longitude = res.longitude;
+        that.getLocal(latitude, longitude)
+      },
+      fail: function (res) {}
+    })
+  },
+
+  // 获取当前地理位置
+  getLocal: function (latitude, longitude) {
+    var that = this;
+    qqmapsdk.reverseGeocoder({
+      location: {
+        latitude: latitude,
+        longitude: longitude
+      },
+      success: function (res) {
+        var detailedAddress = '';
+        var province = '';
+        var city = '';
+        var district = '';
+        if (res.result.address) detailedAddress = res.result.address;
+        if (res.result.ad_info.province) province = res.result.ad_info.province;
+        if (res.result.ad_info.city) city = res.result.ad_info.city;
+        if (res.result.ad_info.district) district = res.result.ad_info.district;
+        var address = province + city + district;
+        that.setData({
+          detailedAddress: detailedAddress,
+          address: address
+        })
+      },
+      fail: function (res) {}
+    });
+  }
 })

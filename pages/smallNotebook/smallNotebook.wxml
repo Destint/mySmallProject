@@ -2,6 +2,7 @@
   <view class="smallNotebook-box">
     <view class="smallNotebook-title">{{smallNotebookData.title}}</view>
     <view class="smallNotebook-time">{{smallNotebookData.time}}</view>
+    <view class="smallNotebook-detailedAddress">{{smallNotebookData.detailedAddress}}</view>
     <view class="smallNotebook-content">{{smallNotebookData.content}}</view>
   </view>
   <view class="delete-box">
