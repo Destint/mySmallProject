@@ -13,6 +13,7 @@ Page({
     content: '', // 小本本内容初值
     address: '', // 当前位置
     detailedAddress: '', // 当前详细位置
+    detailedWeather: '', // 当前位置详细天气
   },
 
   // 页面加载（一个页面只会调用一次）
@@ -53,9 +54,9 @@ Page({
     var value = getPreTime.formatTime(new Date());
     preSmallNotebookData[key] = value;
     key = "address";
-    preSmallNotebookData[key] = that.data.address;
+    preSmallNotebookData[key] = that.data.address + ' ' + that.data.detailedWeather;
     key = "detailedAddress";
-    preSmallNotebookData[key] = that.data.detailedAddress;
+    preSmallNotebookData[key] = that.data.detailedAddress + ' ' + that.data.detailedWeather;
     wx.getStorage({
       key: 'smallNotebookData',
       success(res) {
@@ -208,8 +209,32 @@ Page({
           detailedAddress: detailedAddress,
           address: address
         })
+        if (district != '') that.getWeather(district); // 获取当前位置天气
+        else if (city != '') that.getWeather(city);
       },
       fail: function (res) {}
     });
+  },
+
+  // 获取当前天气
+  getWeather(location) {
+    var that=this;
+    wx.request({
+      url: 'https://free-api.heweather.net/s6/weather/now',
+      data: {
+        location: location,
+        key: "2ce65b27e7784d0f85ecd7b8127f5e2d"
+      },
+      success: function (res) {
+        var weather = '';
+        var temperature = '';
+        if (res.data.HeWeather6[0].now.cond_txt) weather = res.data.HeWeather6[0].now.cond_txt;
+        if (res.data.HeWeather6[0].now.fl) temperature = res.data.HeWeather6[0].now.fl + '℃';
+        var detailedWeather = weather + ' ' + temperature;
+        that.setData({
+          detailedWeather: detailedWeather
+        })
+      }
+    })
   }
 })
