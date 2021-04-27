@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/record/record"
+    "pages/record/record",
+    "pages/smallNotebook/smallNotebook"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#ff8c00",
     "navigationBarTextStyle": "white"
   },
   "style": "v2",

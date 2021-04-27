@@ -1,7 +1,7 @@
 <view class="page-record">
   <form bindsubmit="recordSmallNotebookData">
     <view class="smallNotebook-title-box">
-      <input class="smallNotebook-title-input" name='title' placeholder="标题" value="{{title}}" />
+      <input class="smallNotebook-title-input" name='title' maxlength="10" placeholder="标题" value="{{title}}" />
     </view>
     <view class="smallNotebook-content-box">
       <textarea class="smallNotebook-content-input" name='content' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
