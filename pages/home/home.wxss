@@ -40,7 +40,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  bottom: 50rpx;
+  bottom: 100rpx;
   height: 150rpx;
   width: 250rpx;
   border-radius: 60rpx;

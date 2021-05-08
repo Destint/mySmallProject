@@ -14,7 +14,6 @@
 
 .smallNotebook-content-input {
   width: 100%;
-  height: 800rpx;
   font-size: 30rpx;
 }
 
@@ -25,12 +24,13 @@
 }
 
 .smallNotebook-record-btn {
+  z-index: 2;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  bottom: 50rpx;
+  bottom: 100rpx;
   height: 150rpx !important;
   width: 250rpx !important;
   border-radius: 60rpx !important;
@@ -43,13 +43,14 @@
 }
 
 .smallNotebook-takePicture-btn {
+  z-index: 2;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   left: 30rpx;
-  bottom: 50rpx;
+  bottom: 100rpx;
   height: 100rpx !important;
   width: 200rpx !important;
   border-radius: 60rpx !important;
@@ -62,6 +63,7 @@
 }
 
 .takePictureNumFlag {
+  z-index: 2;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -71,20 +73,21 @@
   height: 24rpx;
   color: red;
   font-size: 24rpx;
-  bottom: 120rpx;
+  bottom: 170rpx;
   left: 190rpx;
   border-radius: 50%;
   border: 1rpx solid red;
 }
 
 .smallNotebook-photoAlbum-btn {
+  z-index: 2;
   position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   right: 30rpx;
-  bottom: 50rpx;
+  bottom: 100rpx;
   height: 100rpx !important;
   width: 200rpx !important;
   border-radius: 60rpx !important;
@@ -97,6 +100,7 @@
 }
 
 .albumNumFlag {
+  z-index: 2;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -106,8 +110,16 @@
   height: 24rpx;
   color: red;
   font-size: 24rpx;
-  bottom: 120rpx;
+  bottom: 170rpx;
   right: 50rpx;
   border-radius: 50%;
   border: 1rpx solid red;
+}
+
+.smallNotebook-picture-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10rpx 30rpx;
 }

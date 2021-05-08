@@ -45,13 +45,6 @@ Page({
         duration: 1500
       })
       return;
-    } else if (preSmallNotebookData.content == '') {
-      wx.showToast({
-        title: '小本本内容未写',
-        icon: 'none',
-        duration: 1500
-      })
-      return;
     }
     var key = "time";
     var value = getPreTime.formatTime(new Date());

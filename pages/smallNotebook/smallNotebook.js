@@ -14,8 +14,13 @@ Page({
     const eventChannel = this.getOpenerEventChannel();
     // 接收上个页面的数据
     eventChannel.on('acceptDataFromOpenerPage', function (data) {
+      if (data.data.content) {
+        var newData = JSON.parse(JSON.stringify(data.data).replace(/content/g, 'content0'))
+      } else {
+        var newData = data.data
+      }
       that.setData({
-        smallNotebookData: data.data,
+        smallNotebookData: newData,
       })
     })
   },

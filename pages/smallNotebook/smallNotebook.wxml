@@ -3,12 +3,18 @@
     <view class="smallNotebook-title">{{smallNotebookData.title}}</view>
     <view class="smallNotebook-time">{{smallNotebookData.time}}</view>
     <view class="smallNotebook-detailedAddress">{{smallNotebookData.detailedAddress}}</view>
-    <block wx:for-items="{{smallNotebookData.pictureData}}" wx:key="index">
-      <view class="smallNotebook-picture-box" data-data="{{item}}" data-index="{{index}}">
-        <image class="smallNotebook-picture" src="{{item}}" mode="widthFix"></image>
-      </view>
+    <block wx:if="{{smallNotebookData.pictureData&&smallNotebookData.pictureData!=''}}">
+      <block wx:for-items="{{smallNotebookData.pictureData}}" wx:key="index">
+        <view class="smallNotebook-picture-box" data-data="{{item}}" data-index="{{index}}">
+          <image src="{{item}}" mode="widthFix"></image>
+        </view>
+        <view class="smallNotebook-content">
+          {{index==0?smallNotebookData.content0:index==1?smallNotebookData.content1:smallNotebookData.content2}}</view>
+      </block>
     </block>
-    <view class="smallNotebook-content">{{smallNotebookData.content}}</view>
+    <block wx:else>
+      <view class="smallNotebook-content">{{smallNotebookData.content0}}</view>
+    </block>
   </view>
   <view class="delete-box">
     <view class="delete-bg" bindtap="deleteSmallNotebook">

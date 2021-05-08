@@ -3,10 +3,25 @@
     <view class="smallNotebook-title-box">
       <input class="smallNotebook-title-input" name='title' maxlength="10" placeholder="标题" value="{{title}}" />
     </view>
-    <view class="smallNotebook-content-box">
-      <textarea class="smallNotebook-content-input" name='content' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
-        disable-default-padding='true' value="{{content}}"></textarea>
-    </view>
+    <block wx:if="{{pictureData != ''}}">
+      <block wx:for-items="{{pictureData}}" wx:key="index">
+        <view class="smallNotebook-graphic-box" data-data="{{item}}" data-index="{{index}}">
+          <view class="smallNotebook-picture-box">
+            <image src="{{item}}" mode="widthFix"></image>
+          </view>
+          <view class="smallNotebook-content-box">
+            <textarea class="smallNotebook-content-input" style="height:{{100}}rpx" name="content{{index}}" maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
+              disable-default-padding='true' value="{{content}}"></textarea>
+          </view>
+        </view>
+      </block>
+    </block>
+    <block wx:else>
+      <view class="smallNotebook-content-box">
+        <textarea class="smallNotebook-content-input" style="height:{{800}}rpx" name='content0' maxlength="-1" placeholder="赶紧把重要的事拿小本本记下来"
+          disable-default-padding='true' value="{{content}}"></textarea>
+      </view>
+    </block>
     <view class="smallNotebook-record-box">
       <button class="smallNotebook-record-btn" formType="submit">记下来</button>
       <button class="smallNotebook-takePicture-btn" bindtap="takePicture">拍照</button>
