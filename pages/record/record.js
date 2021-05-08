@@ -10,7 +10,9 @@ Page({
   // 初始数据
   data: {
     title: '', // 小本本标题初值
-    content: '', // 小本本内容初值
+    content0: '', // 小本本内容初值
+    content1: '', // 小本本内容初值
+    content2: '', // 小本本内容初值
     address: '', // 当前位置
     detailedAddress: '', // 当前详细位置
     detailedWeather: '', // 当前位置详细天气
@@ -66,7 +68,6 @@ Page({
           success() {
             that.setData({
               title: '',
-              content: ''
             })
             wx.showToast({
               title: '成功记下',
@@ -89,7 +90,6 @@ Page({
           success() {
             that.setData({
               title: '',
-              content: ''
             })
             wx.showToast({
               title: '成功记下',
