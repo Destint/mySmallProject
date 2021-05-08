@@ -41,3 +41,73 @@
   background-color: transparent !important;
   color: #ff8c00;
 }
+
+.smallNotebook-takePicture-btn {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  left: 30rpx;
+  bottom: 50rpx;
+  height: 100rpx !important;
+  width: 200rpx !important;
+  border-radius: 60rpx !important;
+  border-top: 0 !important;
+  border-left: 3rpx solid #dcdcdc !important;
+  border-right: 3rpx solid #dcdcdc !important;
+  border-bottom: 5rpx solid #d3d3d3 !important;
+  background-color: transparent !important;
+  color: #ff8c00;
+}
+
+.takePictureNumFlag {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24rpx;
+  height: 24rpx;
+  color: red;
+  font-size: 24rpx;
+  bottom: 120rpx;
+  left: 190rpx;
+  border-radius: 50%;
+  border: 1rpx solid red;
+}
+
+.smallNotebook-photoAlbum-btn {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  right: 30rpx;
+  bottom: 50rpx;
+  height: 100rpx !important;
+  width: 200rpx !important;
+  border-radius: 60rpx !important;
+  border-top: 0 !important;
+  border-left: 3rpx solid #dcdcdc !important;
+  border-right: 3rpx solid #dcdcdc !important;
+  border-bottom: 5rpx solid #d3d3d3 !important;
+  background-color: transparent !important;
+  color: #ff8c00;
+}
+
+.albumNumFlag {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24rpx;
+  height: 24rpx;
+  color: red;
+  font-size: 24rpx;
+  bottom: 120rpx;
+  right: 50rpx;
+  border-radius: 50%;
+  border: 1rpx solid red;
+}

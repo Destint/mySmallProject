@@ -24,7 +24,7 @@
 
 .smallNotebook-content {
   font-size: 28rpx;
-  margin: 10rpx 30rpx 0rpx 30rpx;
+  margin: 10rpx 30rpx 10rpx 30rpx;
 }
 
 .delete-box {
@@ -53,4 +53,11 @@
   font-size: 24rpx;
   font-weight: 600;
   color: #ff8c00;
+}
+
+.smallNotebook-picture-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10rpx 30rpx;
 }

@@ -9,6 +9,14 @@
     </view>
     <view class="smallNotebook-record-box">
       <button class="smallNotebook-record-btn" formType="submit">记下来</button>
+      <button class="smallNotebook-takePicture-btn" bindtap="takePicture">拍照</button>
+      <block wx:if="{{takePictureNum}}">
+        <text class="takePictureNumFlag">{{takePictureNum}}</text>
+      </block>
+      <button class="smallNotebook-photoAlbum-btn" bindtap="photoAlbum">相册</button>
+      <block wx:if="{{albumNum}}">
+        <text class="albumNumFlag">{{albumNum}}</text>
+      </block>
     </view>
   </form>
 </view>

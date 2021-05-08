@@ -14,6 +14,9 @@ Page({
     address: '', // 当前位置
     detailedAddress: '', // 当前详细位置
     detailedWeather: '', // 当前位置详细天气
+    pictureData: [], // 图片的base64数据
+    takePictureNum: 0, // 拍照数量
+    albumNum: 0, // 相册数量
   },
 
   // 页面加载（一个页面只会调用一次）
@@ -57,6 +60,8 @@ Page({
     preSmallNotebookData[key] = that.data.address + ' ' + that.data.detailedWeather;
     key = "detailedAddress";
     preSmallNotebookData[key] = that.data.detailedAddress + ' ' + that.data.detailedWeather;
+    key = "pictureData";
+    preSmallNotebookData[key] = that.data.pictureData;
     wx.getStorage({
       key: 'smallNotebookData',
       success(res) {
@@ -218,7 +223,7 @@ Page({
 
   // 获取当前天气
   getWeather(location) {
-    var that=this;
+    var that = this;
     wx.request({
       url: 'https://free-api.heweather.net/s6/weather/now',
       data: {
@@ -236,5 +241,104 @@ Page({
         })
       }
     })
+  },
+
+  // 拍照
+  takePicture() {
+    var that = this;
+    var takePictureNum = that.data.takePictureNum
+    var albumNum = that.data.albumNum
+    if (takePictureNum + albumNum >= 3) {
+      wx.showToast({
+        title: '图片最多保存3张',
+        icon: 'none',
+        duration: 1500
+      })
+    } else {
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['compressed'],
+        sourceType: ['camera'],
+        success(res) {
+          wx.showLoading({
+            title: '正在保存',
+            mask: 'true'
+          })
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths
+          wx.compressImage({
+            src: tempFilePaths[0],
+            quality: 80,
+            success: res => {
+              const tempFilePath = res.tempFilePath
+              var pictureData = that.data.pictureData
+              pictureData.push(tempFilePath)
+              takePictureNum++;
+              that.setData({
+                pictureData: pictureData,
+                takePictureNum: takePictureNum
+              })
+              wx.hideLoading()
+              // wx.getFileSystemManager().readFile({
+              //   filePath: tempFilePath, //选择图片返回的相对路径
+              //   encoding: 'base64', //编码格式
+              //   success: res => { //成功的回调
+              //     that.setData({
+              //       pictureData: res.data
+              //     })
+              //     wx.hideLoading()
+              //   }
+              // })
+            }
+          })
+        }
+      })
+    }
+  },
+
+  // 相册
+  photoAlbum() {
+    var that = this;
+    var takePictureNum = that.data.takePictureNum
+    var albumNum = that.data.albumNum
+    if (takePictureNum + albumNum >= 3) {
+      wx.showToast({
+        title: '图片最多保存3张',
+        icon: 'none',
+        duration: 1500
+      })
+    } else {
+      var imgCount = 3 - takePictureNum - albumNum
+      wx.chooseImage({
+        count: imgCount,
+        sizeType: ['compressed'],
+        sourceType: ['album'],
+        success(res) {
+          wx.showLoading({
+            title: '正在保存',
+            mask: 'true'
+          })
+          // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths
+          var pictureData = that.data.pictureData
+          for (var i = 0; i < tempFilePaths.length; i++) {
+            wx.compressImage({
+              src: tempFilePaths[i],
+              quality: 80,
+              success: res => {
+                const tempFilePath = res.tempFilePath
+                pictureData.push(tempFilePath)
+                albumNum++;
+                that.setData({
+                  pictureData: pictureData,
+                  albumNum: albumNum
+                })
+              }
+            })
+          }
+          wx.hideLoading()
+        }
+      })
+    }
   }
 })
