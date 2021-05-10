@@ -32,6 +32,9 @@ Page({
     const eventChannel = this.getOpenerEventChannel();
     // 接收上个页面的数据
     eventChannel.on('acceptDataFromOpenerPage', function (data) {
+      wx.setNavigationBarTitle({
+        title: '编辑小本本',
+      })
       var title = '';
       var content0 = '';
       var content1 = '';
