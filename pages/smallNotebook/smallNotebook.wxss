@@ -27,13 +27,13 @@
   margin: 10rpx 30rpx 10rpx 30rpx;
 }
 
-.delete-box {
+.editor-box {
   z-index: 2;
   display: flex;
   justify-content: center;
 }
 
-.delete-bg {
+.editor-bg {
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -42,6 +42,29 @@
   bottom: 100rpx;
   height: 150rpx;
   width: 250rpx;
+  border-radius: 60rpx;
+  border-top: 0;
+  border-left: 3rpx solid #dcdcdc;
+  border-right: 3rpx solid #dcdcdc;
+  border-bottom: 5rpx solid #d3d3d3;
+}
+
+.editor-tip {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: #ff8c00;
+}
+
+.delete-bg {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  left: 30rpx;
+  bottom: 100rpx;
+  height: 100rpx;
+  width: 200rpx;
   border-radius: 60rpx;
   border-top: 0;
   border-left: 3rpx solid #dcdcdc;

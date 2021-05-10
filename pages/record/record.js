@@ -18,14 +18,47 @@ Page({
     detailedWeather: '', // 当前位置详细天气
     pictureData: [], // 图片的base64数据
     pictureNum: 0, // 图片数量
+    editorFlag: 0, // 编辑模式标志
+    editorData: '', // 编辑模式下的数据
   },
 
   // 页面加载（一个页面只会调用一次）
   onLoad: function () {
+    var that = this;
     wx.showShareMenu(); // 开启分享
     qqmapsdk = new QQMapWX({
       key: '3XKBZ-WP4CG-KQVQM-IJ2WK-7QAE7-2ZFKZ' //腾讯位置服务密钥
     });
+    const eventChannel = this.getOpenerEventChannel();
+    // 接收上个页面的数据
+    eventChannel.on('acceptDataFromOpenerPage', function (data) {
+      var title = '';
+      var content0 = '';
+      var content1 = '';
+      var content2 = '';
+      var pictureData = [];
+      var pictureNum = 0;
+      var editorFlag = 0;
+      if (data.data.title) title = data.data.title;
+      if (data.data.content0) content0 = data.data.content0;
+      if (data.data.content1) content1 = data.data.content1;
+      if (data.data.content2) content2 = data.data.content2;
+      if (data.data.pictureData) {
+        pictureData = data.data.pictureData;
+        pictureNum = data.data.pictureData.length;
+      }
+      if (data.data.editorFlag) editorFlag = 1;
+      that.setData({
+        title: title,
+        content0: content0,
+        content1: content1,
+        content2: content2,
+        pictureData: pictureData,
+        pictureNum: pictureNum,
+        editorFlag: editorFlag,
+        editorData: data.data,
+      })
+    })
   },
 
   // 页面显示（每次打开都会调用）
@@ -37,73 +70,123 @@ Page({
   // 点击记下来按钮事件
   recordSmallNotebookData: function (data) {
     var that = this;
-    var oldSmallNotebookData = []; // 之前的小本本内容
-    var preSmallNotebookData = data.detail.value; // 获取当前小本本记录内容
-    if (preSmallNotebookData.title == '') {
-      wx.showToast({
-        title: '小本本标题未写',
-        icon: 'none',
-        duration: 1500
-      })
-      return;
-    }
-    var key = "time";
-    var value = getPreTime.formatTime(new Date());
-    preSmallNotebookData[key] = value;
-    key = "address";
-    preSmallNotebookData[key] = that.data.address + ' ' + that.data.detailedWeather;
-    key = "detailedAddress";
-    preSmallNotebookData[key] = that.data.detailedAddress + ' ' + that.data.detailedWeather;
-    key = "pictureData";
-    preSmallNotebookData[key] = that.data.pictureData;
-    wx.getStorage({
-      key: 'smallNotebookData',
-      success(res) {
-        oldSmallNotebookData = res.data;
-        oldSmallNotebookData.unshift(preSmallNotebookData);
-        wx.setStorage({
-          key: "smallNotebookData",
-          data: oldSmallNotebookData,
-          success() {
-            that.setData({
-              title: '',
-            })
-            wx.showToast({
-              title: '成功记下',
-              icon: 'none',
-              duration: 400,
-              success() {
-                setTimeout(function () {
-                  wx.navigateBack()
-                }, 400)
-              }
-            })
-          }
+    if (that.data.editorFlag == 0) {
+      var oldSmallNotebookData = []; // 之前的小本本内容
+      var preSmallNotebookData = data.detail.value; // 获取当前小本本记录内容
+      if (preSmallNotebookData.title == '') {
+        wx.showToast({
+          title: '小本本标题未写',
+          icon: 'none',
+          duration: 1500
         })
-      },
-      fail() {
-        oldSmallNotebookData.unshift(preSmallNotebookData);
-        wx.setStorage({
-          key: "smallNotebookData",
-          data: oldSmallNotebookData,
-          success() {
-            that.setData({
-              title: '',
-            })
-            wx.showToast({
-              title: '成功记下',
-              icon: 'none',
-              duration: 400,
-              success() {
-                setTimeout(function () {
-                  wx.navigateBack()
-                }, 400)
-              }
-            })
-          }
-        })
+        return;
       }
-    })
+      var key = "time";
+      var value = getPreTime.formatTime(new Date());
+      preSmallNotebookData[key] = value;
+      key = "address";
+      preSmallNotebookData[key] = that.data.address + ' ' + that.data.detailedWeather;
+      key = "detailedAddress";
+      preSmallNotebookData[key] = that.data.detailedAddress + ' ' + that.data.detailedWeather;
+      key = "pictureData";
+      preSmallNotebookData[key] = that.data.pictureData;
+      wx.getStorage({
+        key: 'smallNotebookData',
+        success(res) {
+          oldSmallNotebookData = res.data;
+          oldSmallNotebookData.unshift(preSmallNotebookData);
+          wx.setStorage({
+            key: "smallNotebookData",
+            data: oldSmallNotebookData,
+            success() {
+              that.setData({
+                title: '',
+              })
+              wx.showToast({
+                title: '成功记下',
+                icon: 'none',
+                duration: 400,
+                success() {
+                  setTimeout(function () {
+                    wx.navigateBack()
+                  }, 400)
+                }
+              })
+            }
+          })
+        },
+        fail() {
+          oldSmallNotebookData.unshift(preSmallNotebookData);
+          wx.setStorage({
+            key: "smallNotebookData",
+            data: oldSmallNotebookData,
+            success() {
+              that.setData({
+                title: '',
+              })
+              wx.showToast({
+                title: '成功记下',
+                icon: 'none',
+                duration: 400,
+                success() {
+                  setTimeout(function () {
+                    wx.navigateBack()
+                  }, 400)
+                }
+              })
+            }
+          })
+        }
+      })
+    } else {
+      var oldSmallNotebookData = that.data.editorData; // 之前的小本本内容
+      var preSmallNotebookData = data.detail.value; // 获取当前小本本记录内容
+      var index = oldSmallNotebookData.index; // 获取小本本的编号
+      if (preSmallNotebookData.title == '') {
+        wx.showToast({
+          title: '小本本标题未写',
+          icon: 'none',
+          duration: 1500
+        })
+        return;
+      }
+      var key = "time";
+      preSmallNotebookData[key] = oldSmallNotebookData.time;
+      key = "address";
+      preSmallNotebookData[key] = oldSmallNotebookData.address;
+      key = "detailedAddress";
+      preSmallNotebookData[key] = oldSmallNotebookData.detailedAddress;
+      key = "pictureData";
+      preSmallNotebookData[key] = that.data.pictureData;
+      wx.getStorage({
+        key: 'smallNotebookData',
+        success(res) {
+          oldSmallNotebookData = res.data;
+          oldSmallNotebookData[index] = preSmallNotebookData;
+          wx.setStorage({
+            key: "smallNotebookData",
+            data: oldSmallNotebookData,
+            success() {
+              that.setData({
+                title: '',
+              })
+              wx.showToast({
+                title: '编辑成功',
+                icon: 'none',
+                duration: 400,
+                success() {
+                  setTimeout(function () {
+                    wx.navigateBack({
+                      delta: 2
+                    })
+                  }, 400)
+                }
+              })
+            }
+          })
+        }
+      })
+    }
   },
 
   // 分享给朋友的页面设置
@@ -239,7 +322,7 @@ Page({
   takePicture() {
     var that = this;
     var pictureNum = that.data.pictureNum
-    if (pictureNum>= 3) {
+    if (pictureNum >= 3) {
       wx.showToast({
         title: '图片最多保存3张',
         icon: 'none',
@@ -291,7 +374,7 @@ Page({
   photoAlbum() {
     var that = this;
     var pictureNum = that.data.pictureNum
-    if (pictureNum>= 3) {
+    if (pictureNum >= 3) {
       wx.showToast({
         title: '图片最多保存3张',
         icon: 'none',
@@ -341,7 +424,7 @@ Page({
         content: '是否删除该图片',
         cancelText: '才不',
         confirmText: '删了删了',
-        success (res) {
+        success(res) {
           if (res.confirm) {
             // 确定删除图片
             var index = e.currentTarget.dataset.index;

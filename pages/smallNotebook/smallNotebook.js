@@ -22,7 +22,6 @@ Page({
       that.setData({
         smallNotebookData: newData,
       })
-      console.log(newData)
     })
   },
 
@@ -83,5 +82,23 @@ Page({
         urls: [url]
       })
     }
+  },
+
+  // 编辑小本本
+  editorSmallNotebook: function () {
+    var that = this;
+    var smallNotebookData = that.data.smallNotebookData
+    var key = "editorFlag";
+    var value = 1;
+    smallNotebookData[key] = value;
+    wx.navigateTo({
+      url: '/pages/record/record',
+      success: function (res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', {
+          data: smallNotebookData
+        })
+      }
+    })
   }
 })

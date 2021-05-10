@@ -16,7 +16,10 @@
       <view class="smallNotebook-content">{{smallNotebookData.content0}}</view>
     </block>
   </view>
-  <view class="delete-box">
+  <view class="editor-box">
+    <view class="editor-bg" bindtap="editorSmallNotebook">
+      <text class="editor-tip">编辑小本本</text>
+    </view>
     <view class="delete-bg" bindtap="deleteSmallNotebook">
       <text class="delete-tip">删除小本本</text>
     </view>
