@@ -42,6 +42,23 @@
   color: #ff8c00;
 }
 
+.pictureNumFlag {
+  z-index: 2;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 24rpx;
+  height: 24rpx;
+  color: red;
+  font-size: 24rpx;
+  bottom: 210rpx;
+  left: 450rpx;
+  border-radius: 50%;
+  border: 1rpx solid red;
+}
+
 .smallNotebook-takePicture-btn {
   z-index: 2;
   position: fixed;
@@ -62,23 +79,6 @@
   color: #ff8c00;
 }
 
-.takePictureNumFlag {
-  z-index: 2;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 24rpx;
-  height: 24rpx;
-  color: red;
-  font-size: 24rpx;
-  bottom: 170rpx;
-  left: 190rpx;
-  border-radius: 50%;
-  border: 1rpx solid red;
-}
-
 .smallNotebook-photoAlbum-btn {
   z-index: 2;
   position: fixed;
@@ -97,23 +97,6 @@
   border-bottom: 5rpx solid #d3d3d3 !important;
   background-color: transparent !important;
   color: #ff8c00;
-}
-
-.albumNumFlag {
-  z-index: 2;
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 24rpx;
-  height: 24rpx;
-  color: red;
-  font-size: 24rpx;
-  bottom: 170rpx;
-  right: 50rpx;
-  border-radius: 50%;
-  border: 1rpx solid red;
 }
 
 .smallNotebook-picture-box {

@@ -17,8 +17,7 @@ Page({
     detailedAddress: '', // 当前详细位置
     detailedWeather: '', // 当前位置详细天气
     pictureData: [], // 图片的base64数据
-    takePictureNum: 0, // 拍照数量
-    albumNum: 0, // 相册数量
+    pictureNum: 0, // 图片数量
   },
 
   // 页面加载（一个页面只会调用一次）
@@ -239,9 +238,8 @@ Page({
   // 拍照
   takePicture() {
     var that = this;
-    var takePictureNum = that.data.takePictureNum
-    var albumNum = that.data.albumNum
-    if (takePictureNum + albumNum >= 3) {
+    var pictureNum = that.data.pictureNum
+    if (pictureNum>= 3) {
       wx.showToast({
         title: '图片最多保存3张',
         icon: 'none',
@@ -266,10 +264,10 @@ Page({
               const tempFilePath = res.tempFilePath
               var pictureData = that.data.pictureData
               pictureData.push(tempFilePath)
-              takePictureNum++;
+              pictureNum++;
               that.setData({
                 pictureData: pictureData,
-                takePictureNum: takePictureNum
+                pictureNum: pictureNum
               })
               wx.hideLoading()
               // wx.getFileSystemManager().readFile({
@@ -292,16 +290,15 @@ Page({
   // 相册
   photoAlbum() {
     var that = this;
-    var takePictureNum = that.data.takePictureNum
-    var albumNum = that.data.albumNum
-    if (takePictureNum + albumNum >= 3) {
+    var pictureNum = that.data.pictureNum
+    if (pictureNum>= 3) {
       wx.showToast({
         title: '图片最多保存3张',
         icon: 'none',
         duration: 1500
       })
     } else {
-      var imgCount = 3 - takePictureNum - albumNum
+      var imgCount = 3 - pictureNum;
       wx.chooseImage({
         count: imgCount,
         sizeType: ['compressed'],
@@ -321,15 +318,42 @@ Page({
               success: res => {
                 const tempFilePath = res.tempFilePath
                 pictureData.push(tempFilePath)
-                albumNum++;
+                pictureNum++;
                 that.setData({
                   pictureData: pictureData,
-                  albumNum: albumNum
+                  pictureNum: pictureNum
                 })
               }
             })
           }
           wx.hideLoading()
+        }
+      })
+    }
+  },
+
+  // 删除图片
+  deletePicture: function (e) {
+    var that = this;
+    if (e.currentTarget.dataset) {
+      wx.showModal({
+        title: '温馨提示',
+        content: '是否删除该图片',
+        cancelText: '才不',
+        confirmText: '删了删了',
+        success (res) {
+          if (res.confirm) {
+            // 确定删除图片
+            var index = e.currentTarget.dataset.index;
+            var pictureData = that.data.pictureData;
+            var pictureNum = that.data.pictureNum;
+            pictureData.splice(index, 1);
+            pictureNum--;
+            that.setData({
+              pictureData: pictureData,
+              pictureNum: pictureNum
+            })
+          }
         }
       })
     }

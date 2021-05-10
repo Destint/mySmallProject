@@ -5,7 +5,7 @@
     <view class="smallNotebook-detailedAddress">{{smallNotebookData.detailedAddress}}</view>
     <block wx:if="{{smallNotebookData.pictureData&&smallNotebookData.pictureData!=''}}">
       <block wx:for-items="{{smallNotebookData.pictureData}}" wx:key="index">
-        <view class="smallNotebook-picture-box" data-data="{{item}}" data-index="{{index}}">
+        <view class="smallNotebook-picture-box" bindtap="reviewImage" data-data="{{item}}" data-index="{{index}}">
           <image src="{{item}}" mode="widthFix"></image>
         </view>
         <view class="smallNotebook-content">

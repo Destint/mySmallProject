@@ -6,7 +6,8 @@
     <block wx:if="{{pictureData != ''}}">
       <block wx:for-items="{{pictureData}}" wx:key="index">
         <view class="smallNotebook-graphic-box" data-data="{{item}}" data-index="{{index}}">
-          <view class="smallNotebook-picture-box">
+          <view class="smallNotebook-picture-box" bindlongpress="deletePicture" data-data="{{item}}"
+            data-index="{{index}}">
             <image src="{{item}}" mode="widthFix"></image>
           </view>
           <view class="smallNotebook-content-box">
@@ -25,14 +26,11 @@
     </block>
     <view class="smallNotebook-record-box">
       <button class="smallNotebook-record-btn" formType="submit">记下来</button>
+      <block wx:if="{{pictureNum}}">
+        <text class="pictureNumFlag">{{pictureNum}}</text>
+      </block>
       <button class="smallNotebook-takePicture-btn" bindtap="takePicture">拍照</button>
-      <block wx:if="{{takePictureNum}}">
-        <text class="takePictureNumFlag">{{takePictureNum}}</text>
-      </block>
       <button class="smallNotebook-photoAlbum-btn" bindtap="photoAlbum">相册</button>
-      <block wx:if="{{albumNum}}">
-        <text class="albumNumFlag">{{albumNum}}</text>
-      </block>
     </view>
   </form>
 </view>

@@ -22,6 +22,7 @@ Page({
       that.setData({
         smallNotebookData: newData,
       })
+      console.log(newData)
     })
   },
 
@@ -71,6 +72,16 @@ Page({
       title: '我拿小本本记下了',
       path: '/pages/home/home',
       imageUrl: '/images/share.png'
+    }
+  },
+
+  // 查看图片
+  reviewImage: function (e) {
+    if (e.currentTarget.dataset) {
+      var url = e.currentTarget.dataset.data;
+      wx.previewImage({
+        urls: [url]
+      })
     }
   }
 })
