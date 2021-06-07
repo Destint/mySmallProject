@@ -4,10 +4,15 @@ App({
   onLaunch() {
     let that = this;
     that.testVersion();
+    wx.cloud.init({
+      env: 'zxj-8gnakc5c52888d77'
+    })
   },
 
   // 全局数据
-  globalData: {},
+  globalData: {
+    openid: '', // 用户的openid
+  },
 
   // 检测小程序版本提示更新
   testVersion: function () {

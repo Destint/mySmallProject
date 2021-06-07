@@ -99,54 +99,11 @@ Page({
       preSmallNotebookData[key] = that.data.detailedAddress + ' ' + that.data.detailedWeather;
       key = "pictureData";
       preSmallNotebookData[key] = that.data.pictureData;
-      wx.getStorage({
-        key: 'smallNotebookData',
-        success(res) {
-          oldSmallNotebookData = res.data;
-          oldSmallNotebookData.unshift(preSmallNotebookData);
-          wx.setStorage({
-            key: "smallNotebookData",
-            data: oldSmallNotebookData,
-            success() {
-              that.setData({
-                title: '',
-              });
-              wx.showToast({
-                title: '成功记下',
-                icon: 'none',
-                duration: 400,
-                success() {
-                  setTimeout(function () {
-                    wx.navigateBack()
-                  }, 400);
-                },
-              });
-            },
-          });
-        },
-        fail() {
-          oldSmallNotebookData.unshift(preSmallNotebookData);
-          wx.setStorage({
-            key: "smallNotebookData",
-            data: oldSmallNotebookData,
-            success() {
-              that.setData({
-                title: '',
-              });
-              wx.showToast({
-                title: '成功记下',
-                icon: 'none',
-                duration: 400,
-                success() {
-                  setTimeout(function () {
-                    wx.navigateBack();
-                  }, 400);
-                },
-              });
-            },
-          });
-        },
-      });
+      // 小本本数据存在云数据库
+      that.saveSmallNotebookDataInCloud(oldSmallNotebookData, preSmallNotebookData);
+
+      // 小本本数据存在手机本地缓存
+      // that.saveSmallNotebookDataInLocal(oldSmallNotebookData, preSmallNotebookData);
     } else {
       let oldSmallNotebookData = that.data.editorData; // 之前的小本本内容
       let preSmallNotebookData = data.detail.value; // 获取当前小本本记录内容
@@ -167,15 +124,182 @@ Page({
       preSmallNotebookData[key] = oldSmallNotebookData.detailedAddress;
       key = "pictureData";
       preSmallNotebookData[key] = that.data.pictureData;
-      wx.getStorage({
-        key: 'smallNotebookData',
-        success(res) {
-          oldSmallNotebookData = res.data;
+
+      // 编辑小本本本地缓存数据
+      // that.editorSmallNotebookInLocal(index, oldSmallNotebookData, preSmallNotebookData);
+      // 编辑小本本云端数据
+      that.editorSmallNotebookInCloud(index, oldSmallNotebookData, preSmallNotebookData);
+    };
+  },
+
+  // 小本本数据缓存在本地
+  saveSmallNotebookDataInLocal: function (oldSmallNotebookData, preSmallNotebookData) {
+    let that = this;
+    wx.getStorage({
+      key: 'smallNotebookData',
+      success(res) {
+        oldSmallNotebookData = res.data;
+        oldSmallNotebookData.unshift(preSmallNotebookData);
+        wx.setStorage({
+          key: "smallNotebookData",
+          data: oldSmallNotebookData,
+          success() {
+            that.setData({
+              title: '',
+            });
+            wx.showToast({
+              title: '成功记下',
+              icon: 'none',
+              duration: 400,
+              success() {
+                setTimeout(function () {
+                  wx.navigateBack()
+                }, 400);
+              },
+            });
+          },
+        });
+      },
+      fail() {
+        oldSmallNotebookData.unshift(preSmallNotebookData);
+        wx.setStorage({
+          key: "smallNotebookData",
+          data: oldSmallNotebookData,
+          success() {
+            that.setData({
+              title: '',
+            });
+            wx.showToast({
+              title: '成功记下',
+              icon: 'none',
+              duration: 400,
+              success() {
+                setTimeout(function () {
+                  wx.navigateBack();
+                }, 400);
+              },
+            });
+          },
+        });
+      },
+    });
+  },
+
+  // 编辑小本本本地缓存数据
+  editorSmallNotebookInLocal: function (index, oldSmallNotebookData, preSmallNotebookData) {
+    let that = this;
+    wx.getStorage({
+      key: 'smallNotebookData',
+      success(res) {
+        oldSmallNotebookData = res.data;
+        oldSmallNotebookData[index] = preSmallNotebookData;
+        wx.setStorage({
+          key: "smallNotebookData",
+          data: oldSmallNotebookData,
+          success() {
+            that.setData({
+              title: '',
+            });
+            wx.showToast({
+              title: '编辑成功',
+              icon: 'none',
+              duration: 400,
+              success() {
+                setTimeout(function () {
+                  wx.navigateBack({
+                    delta: 2,
+                  });
+                }, 400);
+              },
+            });
+          },
+        });
+      },
+    });
+  },
+
+  // 小本本数据存在云数据库
+  saveSmallNotebookDataInCloud: function (oldSmallNotebookData, preSmallNotebookData) {
+    let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
+    smallNotebookData.where({
+      _openid: app.globalData.openid,
+    }).get({
+      success: function (res) {
+        if (res.data != "" && res.data[0].smallNotebookData) {
+          oldSmallNotebookData = res.data[0].smallNotebookData;
+          oldSmallNotebookData.unshift(preSmallNotebookData);
+          smallNotebookData.doc(res.data[0]._id).update({
+            data: {
+              smallNotebookData: oldSmallNotebookData,
+            },
+            success: function (res) {
+              that.setData({
+                title: '',
+              });
+              wx.showToast({
+                title: '成功记下',
+                icon: 'none',
+                duration: 400,
+                success() {
+                  setTimeout(function () {
+                    wx.navigateBack()
+                  }, 400);
+                },
+              });
+            },
+          });
+        } else {
+          wx.getStorage({
+            key: 'smallNotebookData',
+            success(res) {
+              oldSmallNotebookData = res.data;
+              oldSmallNotebookData.unshift(preSmallNotebookData);
+              smallNotebookData.add({
+                data: {
+                  smallNotebookData: oldSmallNotebookData,
+                },
+                success: function (res) {
+                  that.setData({
+                    title: '',
+                  });
+                  wx.showToast({
+                    title: '成功记下',
+                    icon: 'none',
+                    duration: 400,
+                    success() {
+                      setTimeout(function () {
+                        wx.navigateBack()
+                      }, 400);
+                    },
+                  });
+                },
+              });
+            },
+          });
+        };
+      },
+    });
+  },
+
+  // 编辑小本本云端数据
+  editorSmallNotebookInCloud: function (index, oldSmallNotebookData, preSmallNotebookData) {
+    let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
+    smallNotebookData.where({
+      _openid: app.globalData.openid,
+    }).get({
+      success: function (res) {
+        if (res.data != "" && res.data[0].smallNotebookData) {
+          oldSmallNotebookData = res.data[0].smallNotebookData;
           oldSmallNotebookData[index] = preSmallNotebookData;
-          wx.setStorage({
-            key: "smallNotebookData",
-            data: oldSmallNotebookData,
-            success() {
+          smallNotebookData.doc(res.data[0]._id).update({
+            data: {
+              smallNotebookData: oldSmallNotebookData,
+            },
+            success: function (res) {
               that.setData({
                 title: '',
               });
@@ -193,9 +317,9 @@ Page({
               });
             },
           });
-        },
-      });
-    };
+        };
+      },
+    });
   },
 
   // 分享给朋友的页面设置
@@ -353,13 +477,29 @@ Page({
             success: function (res) {
               const tempFilePath = res.tempFilePath;
               let pictureData = that.data.pictureData;
-              pictureData.push(tempFilePath);
-              pictureNum++;
-              that.setData({
-                pictureData: pictureData,
-                pictureNum: pictureNum,
+
+              wx.getFileSystemManager().readFile({
+                filePath: tempFilePath, //选择图片返回的相对路径
+                encoding: 'base64', //编码格式
+                success: res => { //成功的回调
+                  pictureData.push("data:image/png;base64," + res.data);
+                  pictureNum++;
+                  that.setData({
+                    pictureData: pictureData,
+                    pictureNum: pictureNum,
+                  });
+                  wx.hideLoading();
+                },
               });
-              wx.hideLoading();
+
+
+              // pictureData.push(tempFilePath);
+              // pictureNum++;
+              // that.setData({
+              //   pictureData: pictureData,
+              //   pictureNum: pictureNum,
+              // });
+              // wx.hideLoading();
             },
           });
         },
@@ -397,12 +537,28 @@ Page({
               quality: 80,
               success: function (res) {
                 const tempFilePath = res.tempFilePath;
-                pictureData.push(tempFilePath);
-                pictureNum++;
-                that.setData({
-                  pictureData: pictureData,
-                  pictureNum: pictureNum,
+                
+
+                wx.getFileSystemManager().readFile({
+                  filePath: tempFilePath, //选择图片返回的相对路径
+                  encoding: 'base64', //编码格式
+                  success: res => { //成功的回调
+                    pictureData.push("data:image/png;base64," + res.data);
+                    pictureNum++;
+                    that.setData({
+                      pictureData: pictureData,
+                      pictureNum: pictureNum,
+                    });
+                  },
                 });
+
+
+                // pictureData.push(tempFilePath);
+                // pictureNum++;
+                // that.setData({
+                //   pictureData: pictureData,
+                //   pictureNum: pictureNum,
+                // });
               },
             });
           };

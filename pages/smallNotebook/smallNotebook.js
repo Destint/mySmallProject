@@ -37,26 +37,68 @@ Page({
       success(res) {
         if (res.confirm) {
           let index = that.data.smallNotebookData.index;
-          wx.getStorage({
-            key: 'smallNotebookData',
-            success(res) {
-              let oldSmallNotebookData;
-              oldSmallNotebookData = res.data;
-              oldSmallNotebookData.splice(index, 1);
-              wx.setStorage({
-                key: "smallNotebookData",
-                data: oldSmallNotebookData,
+          // 删除本地小本本缓存数据
+          // that.deleteSmallNotebookInLocal(index);
+          // 删除云端小本本数据
+          that.deleteSmallNotebookInCloud(index);
+        };
+      },
+    });
+  },
+
+  // 删除本地小本本缓存数据
+  deleteSmallNotebookInLocal: function (index) {
+    wx.getStorage({
+      key: 'smallNotebookData',
+      success(res) {
+        let oldSmallNotebookData;
+        oldSmallNotebookData = res.data;
+        oldSmallNotebookData.splice(index, 1);
+        wx.setStorage({
+          key: "smallNotebookData",
+          data: oldSmallNotebookData,
+          success() {
+            wx.showToast({
+              title: '成功删除',
+              icon: 'none',
+              duration: 400,
+              success() {
+                setTimeout(function () {
+                  wx.navigateBack();
+                }, 400);
+              },
+            });
+          },
+        });
+      },
+    });
+  },
+
+  // 删除小本本云端数据
+  deleteSmallNotebookInCloud: function (index) {
+    let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
+    smallNotebookData.where({
+      _openid: app.globalData.openid,
+    }).get({
+      success: function (res) {
+        if (res.data != "" && res.data[0].smallNotebookData) {
+          let oldSmallNotebookData = res.data[0].smallNotebookData;
+          oldSmallNotebookData.splice(index, 1);
+          smallNotebookData.doc(res.data[0]._id).update({
+            data: {
+              smallNotebookData: oldSmallNotebookData,
+            },
+            success: function (res) {
+              wx.showToast({
+                title: '成功删除',
+                icon: 'none',
+                duration: 400,
                 success() {
-                  wx.showToast({
-                    title: '成功删除',
-                    icon: 'none',
-                    duration: 400,
-                    success() {
-                      setTimeout(function () {
-                        wx.navigateBack();
-                      }, 400);
-                    },
-                  });
+                  setTimeout(function () {
+                    wx.navigateBack();
+                  }, 400);
                 },
               });
             },

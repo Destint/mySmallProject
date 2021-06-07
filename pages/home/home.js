@@ -15,7 +15,7 @@ Page({
   // 页面加载（每次打开页面都会调用一次）
   onShow: function () {
     let that = this;
-    that.getSmallNotebookData();
+    that.getSmallNotebookDataFromCloud();
   },
 
   // 获取微信中小本本的缓存数据
@@ -28,6 +28,50 @@ Page({
         that.setData({
           smallNotebookData: res.data,
         });
+      },
+    });
+  },
+
+  // 从云数据库中获取用户的小本本数据
+  getSmallNotebookDataFromCloud: function () {
+    let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
+    smallNotebookData.add({
+      data: {},
+      success: function (res) {
+        smallNotebookData.where({
+          _id: res._id,
+        }).get({
+          success: function (res) {
+            app.globalData.openid = res.data[0]._openid;
+            smallNotebookData.doc(res.data[0]._id).remove({
+              success: function (res) {
+                that.getSmallNotebookDataFromOpenid(app.globalData.openid);
+              },
+            });
+          },
+        });
+      },
+    });
+  },
+
+  // 根据用户的openid获取云数据库中的小本本数据
+  getSmallNotebookDataFromOpenid: function (openid) {
+    let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
+    smallNotebookData.where({
+      _openid: openid,
+    }).get({
+      success: function (res) {
+        if (res.data != "" && res.data[0].smallNotebookData) {
+          that.setData({
+            smallNotebookData: res.data[0].smallNotebookData,
+          });
+        } else {
+          that.getSmallNotebookData();
+        };
       },
     });
   },
