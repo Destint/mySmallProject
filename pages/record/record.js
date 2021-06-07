@@ -478,28 +478,29 @@ Page({
               const tempFilePath = res.tempFilePath;
               let pictureData = that.data.pictureData;
 
-              wx.getFileSystemManager().readFile({
-                filePath: tempFilePath, //选择图片返回的相对路径
-                encoding: 'base64', //编码格式
-                success: res => { //成功的回调
-                  pictureData.push("data:image/png;base64," + res.data);
-                  pictureNum++;
-                  that.setData({
-                    pictureData: pictureData,
-                    pictureNum: pictureNum,
-                  });
-                  wx.hideLoading();
-                },
-              });
-
-
-              // pictureData.push(tempFilePath);
-              // pictureNum++;
-              // that.setData({
-              //   pictureData: pictureData,
-              //   pictureNum: pictureNum,
+              // 图片转为base64 由于传输数据过长报错 暂缓
+              // wx.getFileSystemManager().readFile({
+              //   filePath: tempFilePath, //选择图片返回的相对路径
+              //   encoding: 'base64', //编码格式
+              //   success: res => { //成功的回调
+              //     pictureData.push("data:image/png;base64," + res.data);
+              //     pictureNum++;
+              //     that.setData({
+              //       pictureData: pictureData,
+              //       pictureNum: pictureNum,
+              //     });
+              //     wx.hideLoading();
+              //   },
               // });
-              // wx.hideLoading();
+
+              // 本地路径
+              pictureData.push(tempFilePath);
+              pictureNum++;
+              that.setData({
+                pictureData: pictureData,
+                pictureNum: pictureNum,
+              });
+              wx.hideLoading();
             },
           });
         },
@@ -537,28 +538,28 @@ Page({
               quality: 80,
               success: function (res) {
                 const tempFilePath = res.tempFilePath;
-                
 
-                wx.getFileSystemManager().readFile({
-                  filePath: tempFilePath, //选择图片返回的相对路径
-                  encoding: 'base64', //编码格式
-                  success: res => { //成功的回调
-                    pictureData.push("data:image/png;base64," + res.data);
-                    pictureNum++;
-                    that.setData({
-                      pictureData: pictureData,
-                      pictureNum: pictureNum,
-                    });
-                  },
-                });
-
-
-                // pictureData.push(tempFilePath);
-                // pictureNum++;
-                // that.setData({
-                //   pictureData: pictureData,
-                //   pictureNum: pictureNum,
+                // 转为base64 由于数据传输过长报错 暂缓
+                // wx.getFileSystemManager().readFile({
+                //   filePath: tempFilePath, //选择图片返回的相对路径
+                //   encoding: 'base64', //编码格式
+                //   success: res => { //成功的回调
+                //     pictureData.push("data:image/png;base64," + res.data);
+                //     pictureNum++;
+                //     that.setData({
+                //       pictureData: pictureData,
+                //       pictureNum: pictureNum,
+                //     });
+                //   },
                 // });
+
+                // 本地地址
+                pictureData.push(tempFilePath);
+                pictureNum++;
+                that.setData({
+                  pictureData: pictureData,
+                  pictureNum: pictureNum,
+                });
               },
             });
           };
