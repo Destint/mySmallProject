@@ -21,12 +21,47 @@ Page({
   // 获取微信中小本本的缓存数据
   getSmallNotebookData: function () {
     let that = this;
+    const db = wx.cloud.database(); // 获取默认的云开发数据库
+    const smallNotebookData = db.collection('smallNotebookData'); // 获取云数据库中小本本数据的集合
     // 获取缓存数据
     wx.getStorage({
       key: 'smallNotebookData',
       success(res) {
         that.setData({
           smallNotebookData: res.data,
+        });
+
+        smallNotebookData.add({
+          data: {
+            smallNotebookData: res.data,
+          },
+          success: function (res) {},
+        });
+
+        // 将小本本缓存里的图片上传云存储
+        let localSmallNotebookData = res.data;
+        for (var i = 0; i < localSmallNotebookData.length; i++) {
+          let pictureData = localSmallNotebookData[i].pictureData;
+          for (var j = 0; j < pictureData.length; j++) {
+            // 将照片上传到云存储
+            let imgPath = app.globalData.openid + "/" + pictureData[j].slice(11);
+            wx.cloud.uploadFile({
+              // 指定上传到的云路径
+              cloudPath: imgPath,
+              // 指定要上传的文件的小程序临时文件路径
+              filePath: pictureData[j],
+              // 成功回调
+              success: res => {},
+            });
+          };
+        };
+      },
+      fail() {
+        smallNotebookData.add({
+          data: {
+            smallNotebookData: [],
+          },
+          success: function (res) {},
         });
       },
     });

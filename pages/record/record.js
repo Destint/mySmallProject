@@ -215,6 +215,7 @@ Page({
           },
         });
       },
+      fail() {},
     });
   },
 
@@ -255,6 +256,30 @@ Page({
             key: 'smallNotebookData',
             success(res) {
               oldSmallNotebookData = res.data;
+              oldSmallNotebookData.unshift(preSmallNotebookData);
+              smallNotebookData.add({
+                data: {
+                  smallNotebookData: oldSmallNotebookData,
+                },
+                success: function (res) {
+                  that.setData({
+                    title: '',
+                  });
+                  wx.showToast({
+                    title: '成功记下',
+                    icon: 'none',
+                    duration: 400,
+                    success() {
+                      setTimeout(function () {
+                        wx.navigateBack()
+                      }, 400);
+                    },
+                  });
+                },
+              });
+            },
+            fail() {
+              oldSmallNotebookData = [];
               oldSmallNotebookData.unshift(preSmallNotebookData);
               smallNotebookData.add({
                 data: {
@@ -501,6 +526,17 @@ Page({
                 pictureNum: pictureNum,
               });
               wx.hideLoading();
+
+              // 将照片上传到云存储
+              let imgPath = app.globalData.openid + "/" + tempFilePath.slice(11);
+              wx.cloud.uploadFile({
+                // 指定上传到的云路径
+                cloudPath: imgPath,
+                // 指定要上传的文件的小程序临时文件路径
+                filePath: tempFilePath,
+                // 成功回调
+                success: res => {},
+              });
             },
           });
         },
@@ -559,6 +595,17 @@ Page({
                 that.setData({
                   pictureData: pictureData,
                   pictureNum: pictureNum,
+                });
+
+                // 将照片上传到云存储
+                let imgPath = app.globalData.openid + "/" + tempFilePath.slice(11);
+                wx.cloud.uploadFile({
+                  // 指定上传到的云路径
+                  cloudPath: imgPath,
+                  // 指定要上传的文件的小程序临时文件路径
+                  filePath: tempFilePath,
+                  // 成功回调
+                  success: res => {},
                 });
               },
             });
