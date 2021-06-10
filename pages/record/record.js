@@ -658,4 +658,28 @@ Page({
       });
     };
   },
+
+  // 内容0输入更新
+  content0Input: function (e) {
+    let that = this;
+    that.setData({
+      content0: e.detail.value,
+    });
+  },
+
+  // 内容1输入更新
+  content1Input: function (e) {
+    let that = this;
+    that.setData({
+      content1: e.detail.value,
+    });
+  },
+
+  // 内容2输入更新
+  content2Input: function (e) {
+    let that = this;
+    that.setData({
+      content2: e.detail.value,
+    });
+  },
 })
